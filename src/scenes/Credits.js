@@ -31,7 +31,10 @@ class Credits extends Phaser.Scene {
         // Credits Button
         this.add.text(this.cameras.main.centerX, baseY + spacing * 5, 'Back', { fontSize: '32px', fill: '#FFF' })
             .setInteractive()
-            .on('pointerdown', () => this.scene.start('menuScene'))
+            .on('pointerdown', () => {
+                this.sound.play('menuSelect')
+                this.scene.start('menuScene')
+            })
             .setOrigin(0.5, 0.5)
     }
 }

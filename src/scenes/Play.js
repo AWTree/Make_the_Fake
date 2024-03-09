@@ -21,6 +21,9 @@ class Play extends Phaser.Scene {
         bg.displayWidth = this.sys.game.config.width
         bg.displayHeight = this.sys.game.config.height
 
+        // set bgm
+        this.sound.play('training_room_bgm', {volumn: 0.5, loop:true})
+
         // draw grid lines for jump height reference
         // let graphics = this.add.graphics()
         // graphics.lineStyle(2, 0xFFFFFF, 0.1)
@@ -96,12 +99,14 @@ class Play extends Phaser.Scene {
         this.projectiles = this.physics.add.group() // physics group
         this.physics.add.collider(this.monkey, this.projectiles, (monkey, projectile) => {
             projectile.destroy() 
+            this.sound.play('hit', {volumn: 0.5, loop:false})
             this.playerDied()
         })
 
         this.physics.add.overlap(this.monkey.attackHitbox, this.enemies, (hitbox, enemy) => {
             enemy.defeat() 
             this.score += enemy.score
+            this.sound.play('enemyHit',  {volumn: 0.5, loop:false})
             this.scoreText.setText(`Score: ${this.score}`) 
         })
 
@@ -168,6 +173,8 @@ class Play extends Phaser.Scene {
     playerDied() {
         this.physics.pause()
         this.gameOver = true
+        this.sound.stopByKey('training_room_bgm')
+        this.sound.play('dead', {volumn: 0.5, loop:false})
         this.showMenu()
     }
     
@@ -181,6 +188,7 @@ class Play extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
+                this.sound.play('menuSelect')
                 this.gameOver = false
                 this.gamePause = false
                 this.scene.restart()
@@ -191,6 +199,8 @@ class Play extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
+                this.sound.stopByKey('training_room_bgm')
+                this.sound.play('menuSelect')
                 this.gameOver = false
                 this.gamePause = false
                 this.scene.start('menuScene') 
