@@ -16,8 +16,10 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        // set bg color
-        this.cameras.main.setBackgroundColor('#B0BBBF')
+        // set bg image
+        let bg = this.add.image(0, 0, 'training_background').setOrigin(0, 0)
+        bg.displayWidth = this.sys.game.config.width
+        bg.displayHeight = this.sys.game.config.height
 
         // draw grid lines for jump height reference
         // let graphics = this.add.graphics()
@@ -37,15 +39,15 @@ class Play extends Phaser.Scene {
         }).setOrigin(0.5) // This centers the text
     
         // Set a timed event to remove the text after a few seconds (e.g., 3000 milliseconds = 3 seconds)
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(1500, () => {
             trainingRoomText.destroy() // This removes the text from the scene
         }, [], this)
 
         // add some physics clouds
-        this.cloud01 = this.physics.add.sprite(600, 100, 'platformer_atlas', 'cloud_1')
-        this.cloud01.body.setAllowGravity(false).setVelocityX(25)
-        this.cloud02 = this.physics.add.sprite(200, 200, 'platformer_atlas', 'cloud_2')
-        this.cloud02.body.setAllowGravity(false).setVelocityX(45)
+        // this.cloud01 = this.physics.add.sprite(600, 100, 'platformer_atlas', 'cloud_1')
+        // this.cloud01.body.setAllowGravity(false).setVelocityX(25)
+        // this.cloud02 = this.physics.add.sprite(200, 200, 'platformer_atlas', 'cloud_2')
+        // this.cloud02.body.setAllowGravity(false).setVelocityX(45)
 
         // make ground tiles group
         this.ground = this.add.group()
@@ -55,7 +57,7 @@ class Play extends Phaser.Scene {
             groundTile.body.allowGravity = false
             this.ground.add(groundTile)
         }
-        for(let i = tileSize*2; i < game.config.width-tileSize*13; i += tileSize) {
+        for(let i = tileSize*2; i < game.config.width-tileSize*18; i += tileSize) {
             let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*9, 'training_atlas', 'ground_tile').setScale(2.5).setOrigin(0)
             groundTile.body.immovable = true
             groundTile.body.allowGravity = false
@@ -63,7 +65,7 @@ class Play extends Phaser.Scene {
         }
 
         // add monkey sprite
-        this.monkey = new Monkey(this, this.sys.game.config.width / 2 - 200, this.sys.game.config.height / 2 - 200, 'monkey_atlas', 'idle').setScale(1.5)
+        this.monkey = new Monkey(this, this.sys.game.config.width / 2 - 260, this.sys.game.config.height / 2 - 200, 'monkey_atlas', 'idle').setScale(1.5)
 
         // add enemy sprite (x3)
         this.enemy1 = new Enemy(this, 100, 400, 'training_atlas', 'bot').setScale(2)
