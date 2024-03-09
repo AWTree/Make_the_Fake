@@ -15,11 +15,6 @@ class Play extends Phaser.Scene {
         this.score = 0
     }
 
-    preload() {
-            // load bgm
-            this.load.audio('training_room_bgm', './assets/sfx/mixkit-game-level-music-689.wav')
-    }
-
     create() {
         // set bg image
         let bg = this.add.image(0, 0, 'training_background').setOrigin(0, 0)
