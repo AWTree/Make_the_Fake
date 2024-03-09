@@ -5,6 +5,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this)
         scene.physics.world.enable(this)
 
+        this.setCollideWorldBounds(true)
+
         // enemy-specific properties
         this.moveDirection = -1 // start moving left (-1 for left, 1 for right)
         this.moveSpeed = 100 // movement speed
@@ -29,6 +31,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (time > this.nextToggleTime) {
             this.moveDirection *= -1 // change direction
             this.nextToggleTime = time + this.toggleMoveDirectionTime
+
+            // flip 
             this.setFlipX(this.moveDirection > 0)
         }
 
@@ -49,17 +53,18 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     shoot() {
         let projectile = this.scene.physics.add.sprite(this.x, this.y, 'training_atlas', 'bullet')
+        this.scene.projectiles.add(projectile)
         projectile.setActive(true).setVisible(true)
-        projectile.setScale(1.0)
+        projectile.setScale(0.5)
         projectile.setVelocityX(300 * this.moveDirection)
         projectile.body.setAllowGravity(false)
         projectile.body.setCollideWorldBounds(true)
 
         // Automatically destroy the projectile when it goes out of bounds
-        projectile.body.onWorldBounds = true
+        projectile.body.onWorldBounds = true;
         projectile.body.world.on('worldbounds', (body) => {
             if (body.gameObject === projectile) {
-                projectile.destroy()
+                projectile.destroy();
             }
         }, this)
     }

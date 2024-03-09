@@ -13,7 +13,6 @@ class Play extends Phaser.Scene {
         this.JUMP_VELOCITY = -700
         this.physics.world.gravity.y = 2600
         this.score = 0
-        this.SCALE = 2.5
     }
 
     create() {
@@ -43,10 +42,10 @@ class Play extends Phaser.Scene {
         }, [], this)
 
         // add some physics clouds
-        // this.cloud01 = this.physics.add.sprite(600, 100, 'platformer_atlas', 'cloud_1')
-        // this.cloud01.body.setAllowGravity(false).setVelocityX(25)
-        // this.cloud02 = this.physics.add.sprite(200, 200, 'platformer_atlas', 'cloud_2')
-        // this.cloud02.body.setAllowGravity(false).setVelocityX(45)
+        this.cloud01 = this.physics.add.sprite(600, 100, 'platformer_atlas', 'cloud_1')
+        this.cloud01.body.setAllowGravity(false).setVelocityX(25)
+        this.cloud02 = this.physics.add.sprite(200, 200, 'platformer_atlas', 'cloud_2')
+        this.cloud02.body.setAllowGravity(false).setVelocityX(45)
 
         // make ground tiles group
         this.ground = this.add.group()
@@ -56,14 +55,7 @@ class Play extends Phaser.Scene {
             groundTile.body.allowGravity = false
             this.ground.add(groundTile)
         }
-        for(let i = tileSize*2; i < game.config.width-tileSize*18; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*9, 'training_atlas', 'ground_tile').setScale(2.5).setOrigin(0)
-            groundTile.body.immovable = true
-            groundTile.body.allowGravity = false
-            this.ground.add(groundTile)
-        }
-        
-        for(let i = tileSize*4; i < game.config.width-tileSize*18; i += tileSize) {
+        for(let i = tileSize*2; i < game.config.width-tileSize*13; i += tileSize) {
             let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*9, 'training_atlas', 'ground_tile').setScale(2.5).setOrigin(0)
             groundTile.body.immovable = true
             groundTile.body.allowGravity = false
@@ -74,11 +66,13 @@ class Play extends Phaser.Scene {
         this.monkey = new Monkey(this, this.sys.game.config.width / 2 - 200, this.sys.game.config.height / 2 - 200, 'monkey_atlas', 'idle').setScale(1.5)
 
         // add enemy sprite (x3)
-        this.enemy1 = new Enemy(this, 100, 400, 'training_atlas', 'bot', this.enemy).setScale(2)
-        this.enemy2 = new Enemy(this, 350, 400, 'training_atlas', 'bot', this.enemy).setScale(2)
-        this.enemy3 = new Enemy(this, 550, 400, 'training_atlas', 'bot', this.enemy).setScale(2)
+        this.enemy1 = new Enemy(this, 100, 400, 'training_atlas', 'bot').setScale(2)
+        this.enemy2 = new Enemy(this, 350, 400, 'training_atlas', 'bot').setScale(2)
+        this.enemy3 = new Enemy(this, 600, 400, 'training_atlas', 'bot').setScale(2)
 
+        // initialize enemies group
         this.enemies = this.physics.add.group() // physics group 
+
         this.time.delayedCall(1000, () => {
             this.enemies.add(this.enemy1)
         }, [], this)
@@ -95,14 +89,14 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.enemy2, this.ground) 
         this.physics.add.collider(this.enemy3, this.ground)
   
+
         // projectile collision 
-        this.projectiles = this.physics.add.group()// physics group
+        this.projectiles = this.physics.add.group() // physics group
         this.physics.add.collider(this.monkey, this.projectiles, (monkey, projectile) => {
             projectile.destroy() 
             this.playerDied()
         })
 
-        // attack collision
         this.physics.add.overlap(this.monkey.attackHitbox, this.enemies, (hitbox, enemy) => {
             enemy.defeat() 
             this.score += enemy.score
