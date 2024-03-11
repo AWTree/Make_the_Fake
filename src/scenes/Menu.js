@@ -5,11 +5,11 @@ class Menu extends Phaser.Scene {
 
     preload() {
         // preload assets for buttons if using images
-        this.load.path = 'assets/'
+        this.load.path = '../assets/'
         // this.load.image('playButton', 'playButton.png');
         // this.load.image('tutorialButton', 'tutorialButton.png')
         // this.load.image('creditsButton', 'creditsButton.png')
-        this.load.audio('menuSelect', '/sfx/mixkit-unlock-game-notification-253.wav')
+        this.load.audio('menuSelect', './sfx/mixkit-unlock-game-notification-253.wav')
     }
 
     create() {
