@@ -5,7 +5,7 @@ class Load extends Phaser.Scene {
 
     preload() {
         // set load path
-        this.load.path = '../assets/'
+        this.load.path = './assets/'
         // take care of all of our asset loading now
         this.load.atlas('platformer_atlas', 'kenny_sheet.png', 'kenny_sheet.json') // kenny sheet
         this.load.atlas('monkey_atlas', 'monkey_sprites.png', 'monkey_sprites.json') // monkey sprite
