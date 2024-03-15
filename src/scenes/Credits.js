@@ -16,6 +16,10 @@ class Credits extends Phaser.Scene {
         const baseY = 200
         const spacing = 50
 
+        // normal and hover colors
+        const normalColor = '#FFF'
+        const hoverColor = '#F00'
+
         // Programming
         this.add.text(this.cameras.main.centerX, baseY, 'Programming: Arno Wu', { fontSize: '32px', fill: '#FFF' })
             .setOrigin(0.5, 0.5)
@@ -29,12 +33,14 @@ class Credits extends Phaser.Scene {
             .setOrigin(0.5, 0.5)
 
         // Credits Button
-        this.add.text(this.cameras.main.centerX, baseY + spacing * 5, 'Back', { fontSize: '32px', fill: '#FFF' })
+        let backButton = this.add.text(this.cameras.main.centerX, baseY + spacing * 5, 'Back', { fontSize: '32px', fill: '#FFF' })
             .setInteractive()
             .on('pointerdown', () => {
                 this.sound.play('menuSelect')
                 this.scene.start('menuScene')
             })
+            .on('pointerover', () => backButton.setStyle({ fill: hoverColor }))
+            .on('pointerout', () => backButton.setStyle({ fill: normalColor }))
             .setOrigin(0.5, 0.5)
     }
 }
