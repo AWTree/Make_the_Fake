@@ -24,21 +24,13 @@ class Play extends Phaser.Scene {
         // set bgm
         this.sound.play('training_room_bgm', {volumn: 0.5, loop:true})
 
-        // draw grid lines for jump height reference
-        // let graphics = this.add.graphics()
-        // graphics.lineStyle(2, 0xFFFFFF, 0.1)
-	    // for(let y = game.config.height-70; y >= 35; y -= 35) {
-        //     graphics.lineBetween(0, y, game.config.width, y)
-        // }
-
-
         // show scene name
         const centerX = this.cameras.main.width / 2
         const centerY = this.cameras.main.height / 2
 
         let trainingRoomText = this.add.text(centerX, centerY, 'Training Room', {
             fontSize: '48px',
-            fill: '#FFF'
+            fill: '#F00'
         }).setOrigin(0.5) // This centers the text
     
         // Set a timed event to remove the text after a few seconds (e.g., 3000 milliseconds = 3 seconds)
@@ -68,12 +60,12 @@ class Play extends Phaser.Scene {
         }
 
         // add monkey sprite
-        this.monkey = new Monkey(this, this.sys.game.config.width / 2 - 260, this.sys.game.config.height / 2 - 200, 'monkey_atlas', 'idle').setScale(1.5)
+        this.monkey = new Monkey(this, this.sys.game.config.width / 2 - 260, this.sys.game.config.height / 2 - 200, 'monkey_atlas', 'idle')
 
         // add enemy sprite (x3)
-        this.enemy1 = new Enemy(this, 100, 400, 'training_atlas', 'bot').setScale(2)
-        this.enemy2 = new Enemy(this, 350, 400, 'training_atlas', 'bot').setScale(2)
-        this.enemy3 = new Enemy(this, 600, 400, 'training_atlas', 'bot').setScale(2)
+        this.enemy1 = new Enemy(this, 100, 400, 'training_atlas', 'bot')
+        this.enemy2 = new Enemy(this, 350, 400, 'training_atlas', 'bot')
+        this.enemy3 = new Enemy(this, 600, 400, 'training_atlas', 'bot')
 
         // initialize enemies group
         this.enemies = this.physics.add.group() // physics group 
@@ -172,10 +164,6 @@ class Play extends Phaser.Scene {
                 }
             })
         }
-
-        // wrap physics object(s) .wrap(gameObject, padding)
-        // this.physics.world.wrap(this.cloud01, this.cloud01.width/2)
-        // this.physics.world.wrap(this.cloud02, this.cloud02.width/2)
     }
 
     // handle player death
@@ -206,8 +194,6 @@ class Play extends Phaser.Scene {
                 this.gamePause = false
                 this.scene.restart()
             })
-            .on('pointerover', () => restartButton.setStyle({ fill: hoverColor }))
-            .on('pointerout', () => restartButton.setStyle({ fill: normalColor }))
 
         // menu text
         this.menuButton = this.add.text(width / 2, height / 2 + 30, 'Return to Menu', textStyle)
@@ -220,8 +206,6 @@ class Play extends Phaser.Scene {
                 this.gamePause = false
                 this.scene.start('menuScene') 
             })
-            .on('pointerover', () => menuButton.setStyle({ fill: hoverColor }))
-            .on('pointerout', () => menuButton.setStyle({ fill: normalColor }))
 
         // pause or resume the game
         if (this.restartButton.visible) {

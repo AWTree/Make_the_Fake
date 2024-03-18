@@ -11,6 +11,8 @@ class Load extends Phaser.Scene {
         this.load.atlas('monkey_atlas', 'monkey_sprites.png', 'monkey_sprites.json') // monkey sprite
         this.load.atlas('training_atlas', 'training_room.png', 'training_room.json') // training room sheet
         this.load.image('training_background', 'training_room_background.png') // training room background
+        this.load.image('tilesetImage', 'tileset.png') 
+        this.load.tilemapTiledJSON('tilemapJSON', 'tilemap.json') 
 
         // load sfx
         this.load.audio('jump', './sfx/mixkit-arcade-retro-jump-223.wav')
@@ -69,6 +71,6 @@ class Load extends Phaser.Scene {
         })
 
         // ...and pass to the next Scene
-        this.scene.start('playScene')
+        this.scene.start('playScene2')
     }
 }
