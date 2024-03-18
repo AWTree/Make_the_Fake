@@ -9,6 +9,7 @@ class Load extends Phaser.Scene {
         // take care of all of our asset loading now
         this.load.atlas('platformer_atlas', 'kenny_sheet.png', 'kenny_sheet.json') // kenny sheet
         this.load.atlas('monkey_atlas', 'monkey_sprites.png', 'monkey_sprites.json') // monkey sprite
+        this.load.atlas('enemy_atlas', 'enemy_sprites.png', 'enemy_sprites.json') // monkey sprite
         this.load.atlas('training_atlas', 'training_room.png', 'training_room.json') // training room sheet
         this.load.image('training_background', 'training_room_background.png') // training room background
         this.load.image('tilesetImage', 'tileset.png') 
@@ -63,6 +64,19 @@ class Load extends Phaser.Scene {
                 prefix: 'attack',
                 start: 0,
                 end: 2,
+                suffix: '',
+                zeroPad: 4 
+            }), 
+            frameRate: 30,
+            repeat: -1 
+        })
+
+        this.anims.create({ 
+            key: 'enemy_walk', 
+            frames: this.anims.generateFrameNames('enemy_atlas', {      
+                prefix: 'walk',
+                start: 0,
+                end: 8,
                 suffix: '',
                 zeroPad: 4 
             }), 

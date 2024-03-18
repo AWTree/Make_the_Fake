@@ -10,11 +10,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // enemy-specific properties
         this.moveDirection = -1 // start moving left (-1 for left, 1 for right)
         this.moveSpeed = 100 // movement speed
-        this.toggleMoveDirectionTime = 2000 // time in ms to switch direction
+        this.toggleMoveDirectionTime = 600 // time in ms to switch direction
         this.nextToggleTime = 0 // when to next toggle direction
 
         // shooting mechanics
-        this.shootDelay = 2000 // delay between shots
+        this.shootDelay = 2500 // delay between shots
         this.lastShotTime = 0 // when the last shot was fired
         this.shootingRange = 800
 
@@ -25,13 +25,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.score = 10
     }
 
-
     update(time, delta) {
         // toggle move direction based on time
         if (time > this.nextToggleTime) {
             this.moveDirection *= -1 // change direction
             this.nextToggleTime = time + this.toggleMoveDirectionTime
-
+            this.anims.play('enemy_walk', true)
             // flip 
             this.setFlipX(this.moveDirection > 0)
         }

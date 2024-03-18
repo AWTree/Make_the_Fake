@@ -5,7 +5,7 @@ class Play extends Phaser.Scene {
 
     init() {
         // variables and settings
-        this.ACCELERATION = 1500
+        this.ACCELERATION = 800
         this.MAX_X_VEL = 500        // pixels/second
         this.MAX_Y_VEL = 5000
         this.DRAG = 600             // DRAG < ACCELERATION = icy slide
@@ -37,12 +37,6 @@ class Play extends Phaser.Scene {
         this.time.delayedCall(1500, () => {
             trainingRoomText.destroy() // This removes the text from the scene
         }, [], this)
-
-        // add some physics clouds
-        // this.cloud01 = this.physics.add.sprite(600, 100, 'platformer_atlas', 'cloud_1')
-        // this.cloud01.body.setAllowGravity(false).setVelocityX(25)
-        // this.cloud02 = this.physics.add.sprite(200, 200, 'platformer_atlas', 'cloud_2')
-        // this.cloud02.body.setAllowGravity(false).setVelocityX(45)
 
         // make ground tiles group
         this.ground = this.add.group()

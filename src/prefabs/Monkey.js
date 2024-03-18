@@ -14,8 +14,7 @@ class Monkey extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this)
         scene.physics.world.enable(this)
 
-        this.setCollideWorldBounds(true)
-            .setMaxVelocity(scene.MAX_X_VEL, scene.MAX_Y_VEL)
+        this.setCollideWorldBounds(true).setMaxVelocity(scene.MAX_X_VEL, scene.MAX_Y_VEL)
 
         this.isGrounded = false
         this.jumps = scene.MAX_JUMPS
@@ -58,22 +57,21 @@ class Monkey extends Phaser.Physics.Arcade.Sprite {
             this.anims.play('idle', true)
         }
 
-        this.isGrounded = this.body.touching.down
+        this.isGrounded = this.body.blocked.down || this.body.touching.down
         if (this.isGrounded) {
             this.jumps = this.scene.MAX_JUMPS
             this.jumping = false
-        } else {
-            this.anims.play('jump', true)
         }
 
-        if (this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.up, 150)) {
-            this.setVelocityY(this.JUMP_VELOCITY)
+        if (this.jumps > 0 && Phaser.Input.Keyboard.JustDown(cursors.up)) {
+            this.body.setVelocityY(this.JUMP_VELOCITY)
+            this.jumps--
             this.jumping = true
         }
-
-        if (this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.up)) {
-            this.jumps--
-            this.jumping = false
+    
+        // Ensure jump animation plays only when in the air
+        if (!this.isGrounded && this.jumping) {
+            this.anims.play('jump', true)
         }
     }
 }
